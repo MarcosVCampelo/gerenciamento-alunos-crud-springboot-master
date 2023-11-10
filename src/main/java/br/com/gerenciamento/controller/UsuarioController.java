@@ -20,37 +20,37 @@ import java.security.NoSuchAlgorithmException;
 @Controller
 public class UsuarioController {
 
-    @Autowired
+  @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
     private ServiceUsuario serviceUsuario;
 
+    private ModelAndView configurarModelAndView(String viewName, Object object, String objectName) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName(viewName);
+        modelAndView.addObject(objectName, object);
+        return modelAndView;
+    }
+
     @GetMapping("/login")
     public ModelAndView login() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login/login");
-        modelAndView.addObject("usuario", new Usuario());
-        return modelAndView;
+        return configurarModelAndView("login/login", new Usuario(),"usuario");
     }
 
     @GetMapping("/index")
     public ModelAndView index() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("home/index");
-        modelAndView.addObject("aluno", new Aluno());
-        return modelAndView;
+        return configurarModelAndView("home/index", new Aluno(), "aluno");
     }
+
 
     @GetMapping("/cadastro")
     public ModelAndView cadastrar() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("usuario", new Usuario());
-        modelAndView.setViewName("login/cadastro");
-        return modelAndView;
+        return configurarModelAndView("login/cadastro", new Usuario(), "usuario");
     }
 
     @PostMapping("/salvarUsuario")
+
     public ModelAndView cadastrar(Usuario usuario) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         serviceUsuario.salvarUsuario(usuario);
@@ -64,7 +64,8 @@ public class UsuarioController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("usuario", new Usuario());
         if(br.hasErrors()) {
-            modelAndView.setViewName("login/login");
+            modelAndView.setViewName("redirect:/login");
+            return modelAndView;
         }
 
         Usuario userLogin = serviceUsuario.loginUser(usuario.getUser(), Util.md5(usuario.getSenha()));
@@ -75,6 +76,7 @@ public class UsuarioController {
             return index();
         }
 
+        modelAndView.setViewName("login/login");
         return modelAndView;
     }
 
