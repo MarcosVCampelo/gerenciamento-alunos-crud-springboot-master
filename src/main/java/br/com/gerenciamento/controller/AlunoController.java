@@ -1,5 +1,6 @@
 package br.com.gerenciamento.controller;
 
+import br.com.gerenciamento.method.Printar;
 import br.com.gerenciamento.repository.AlunoRepository;
 import br.com.gerenciamento.model.Aluno;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,50 +20,39 @@ public class AlunoController {
     @Autowired
     private AlunoRepository alunoRepository;
 
+    private Printar printar = new Printar();
+
+
     @GetMapping("/inserirAlunos")
     public ModelAndView insertAlunos(Aluno aluno) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Aluno/formAluno");
-        modelAndView.addObject("aluno", new Aluno());
-        return modelAndView;
+        return printar.modelAndView("Aluno/formAluno", new Aluno(), "aluno");
     }
 
     @PostMapping("InsertAlunos")
     public ModelAndView inserirAluno(@Valid Aluno aluno, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView();
-        if(bindingResult.hasErrors()) {
-            modelAndView.setViewName("Aluno/formAluno");
-            modelAndView.addObject("aluno");
+        if (bindingResult.hasErrors()) {
+            return printar.modelAndView("Aluno/formAluno", aluno, "aluno");
         } else {
-        modelAndView.setViewName("redirect:/alunos-adicionados");
-        alunoRepository.save(aluno);
+            alunoRepository.save(aluno);
+            return printar.modelAndView("redirect:/alunos-adicionados", aluno, "aluno");
         }
-        return modelAndView;
     }
 
     @GetMapping("alunos-adicionados")
     public ModelAndView listagemAlunos() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Aluno/listAlunos");
-        modelAndView.addObject("alunosList", alunoRepository.findAll());
-        return modelAndView;
+        return printar.modelAndView("Aluno/listAlunos", alunoRepository.findAll(), "alunosList");
     }
 
     @GetMapping("/editar/{id}")
-    public ModelAndView editar(@PathVariable("id")Long id) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Aluno/editar");
+    public ModelAndView editar(@PathVariable("id") Long id) {
         Aluno aluno = alunoRepository.getById(id);
-        modelAndView.addObject("aluno", aluno);
-        return modelAndView;
+        return printar.modelAndView("Aluno/editar", aluno, "aluno");
     }
 
     @PostMapping("/editar")
     public ModelAndView editar(Aluno aluno) {
-        ModelAndView modelAndView = new ModelAndView();
         alunoRepository.save(aluno);
-        modelAndView.setViewName("redirect:/alunos-adicionados");
-        return modelAndView;
+        return printar.modelAndView("redirect:/alunos-adicionados", aluno, "aluno");
     }
 
     @GetMapping("/remover/{id}")
@@ -80,31 +70,22 @@ public class AlunoController {
 
     @GetMapping("alunos-ativos")
     public ModelAndView listaAlunosAtivos() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Aluno/alunos-ativos");
-        modelAndView.addObject("alunosAtivos", alunoRepository.findByStatusAtivo());
-        return modelAndView;
+        return printar.modelAndView("Aluno/alunos-ativos", alunoRepository.findByStatusAtivo(), "alunosAtivos");
     }
 
     @GetMapping("alunos-inativos")
     public ModelAndView listaAlunosInativos() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("Aluno/alunos-inativos");
-        modelAndView.addObject("alunosInativos", alunoRepository.findByStatusInativo());
-        return modelAndView;
+        return printar.modelAndView("Aluno/alunos-inativos", alunoRepository.findByStatusInativo(), "alunosInativos");
     }
 
     @PostMapping("/pesquisar-aluno")
     public ModelAndView pesquisarAluno(@RequestParam(required = false) String nome) {
-        ModelAndView modelAndView = new ModelAndView();
         List<Aluno> listaAlunos;
-        if(nome == null || nome.trim().isEmpty()) {
+        if (nome == null || nome.trim().isEmpty()) {
             listaAlunos = alunoRepository.findAll();
         } else {
             listaAlunos = alunoRepository.findByNomeContainingIgnoreCase(nome);
         }
-        modelAndView.addObject("ListaDeAlunos", listaAlunos);
-        modelAndView.setViewName("Aluno/pesquisa-resultado");
-        return modelAndView;
+        return printar.modelAndView("Aluno/pesquisa-resultado", listaAlunos, "ListaDeAlunos");
     }
 }
