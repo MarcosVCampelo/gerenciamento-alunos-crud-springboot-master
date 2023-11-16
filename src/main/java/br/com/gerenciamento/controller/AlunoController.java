@@ -1,5 +1,6 @@
 package br.com.gerenciamento.controller;
 
+import br.com.gerenciamento.method.Lista;
 import br.com.gerenciamento.method.Printar;
 import br.com.gerenciamento.repository.AlunoRepository;
 import br.com.gerenciamento.model.Aluno;
@@ -19,8 +20,8 @@ public class AlunoController {
 
     @Autowired
     private AlunoRepository alunoRepository;
-
     private Printar printar = new Printar();
+    private Lista lista = new Lista();
 
 
     @GetMapping("/inserirAlunos")
@@ -78,14 +79,10 @@ public class AlunoController {
         return printar.modelAndView("Aluno/alunos-inativos", alunoRepository.findByStatusInativo(), "alunosInativos");
     }
 
+    
     @PostMapping("/pesquisar-aluno")
     public ModelAndView pesquisarAluno(@RequestParam(required = false) String nome) {
-        List<Aluno> listaAlunos;
-        if (nome == null || nome.trim().isEmpty()) {
-            listaAlunos = alunoRepository.findAll();
-        } else {
-            listaAlunos = alunoRepository.findByNomeContainingIgnoreCase(nome);
-        }
-        return printar.modelAndView("Aluno/pesquisa-resultado", listaAlunos, "ListaDeAlunos");
+        lista.obterListaAlunos(nome);
+        return printar.modelAndView("Aluno/pesquisa-resultado", lista, "ListaDeAlunos");
     }
 }
