@@ -53,7 +53,7 @@ public class UsuarioController {
 
     public ModelAndView cadastrar(Usuario usuario) throws Exception {
         serviceUsuario.salvarUsuario(usuario);
-       return printar.modelAndView("redirect:/login", new Usuario(), "usuario");
+       return printar.modelAndView("redirect:/login", usuario, "usuario");
     }
 
 
