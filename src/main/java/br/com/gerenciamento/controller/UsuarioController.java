@@ -2,10 +2,13 @@ package br.com.gerenciamento.controller;
 
 import br.com.gerenciamento.repository.UsuarioRepository;
 import br.com.gerenciamento.exception.ServiceExc;
+import br.com.gerenciamento.method.Printar;
 import br.com.gerenciamento.model.Aluno;
 import br.com.gerenciamento.model.Usuario;
 import br.com.gerenciamento.service.ServiceUsuario;
 import br.com.gerenciamento.util.Util;
+
+import org.jboss.jandex.TypeTarget.Usage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,37 +29,33 @@ public class UsuarioController {
     @Autowired
     private ServiceUsuario serviceUsuario;
 
-    private ModelAndView configurarModelAndView(String viewName, Object object, String objectName) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName(viewName);
-        modelAndView.addObject(objectName, object);
-        return modelAndView;
-    }
+
+    private Printar printar = new Printar();
+
 
     @GetMapping("/login")
     public ModelAndView login() {
-        return configurarModelAndView("login/login", new Usuario(),"usuario");
+        return printar.modelAndView("login/login", new Usuario(),"usuario");
     }
 
     @GetMapping("/index")
     public ModelAndView index() {
-        return configurarModelAndView("home/index", new Aluno(), "aluno");
+        return printar.modelAndView("home/index", new Aluno(), "aluno");
     }
 
 
     @GetMapping("/cadastro")
     public ModelAndView cadastrar() {
-        return configurarModelAndView("login/cadastro", new Usuario(), "usuario");
+        return printar.modelAndView("login/cadastro", new Usuario(), "usuario");
     }
 
-    @PostMapping("/salvarUsuario")
+  @PostMapping("/salvarUsuario")
 
     public ModelAndView cadastrar(Usuario usuario) throws Exception {
-        ModelAndView modelAndView = new ModelAndView();
         serviceUsuario.salvarUsuario(usuario);
-        modelAndView.setViewName("redirect:/login");
-        return modelAndView;
+       return printar.modelAndView("redirect:/login", new Usuario(), "usuario");
     }
+
 
     @PostMapping("/login")
     public ModelAndView login(@Valid Usuario usuario, BindingResult br,
