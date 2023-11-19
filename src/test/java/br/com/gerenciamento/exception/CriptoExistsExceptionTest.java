@@ -1,30 +1,31 @@
 package br.com.gerenciamento.exception;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
-import java.lang.reflect.Field;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CriptoExistsExceptionTest {
 
-    @Test
-    public void testCriptoExistsException() {
-        // Mensagem de teste
-        String mensagem = "Mensagem de teste";
+    @Test //verifica se o construtor está configurando corretamente a mensagem
+    public void testConstructor() {
+        String message = "ERRO";
+        CriptoExistsException exception = new CriptoExistsException(message);
 
-        // Criação de uma instância da exceção
-        CriptoExistsException criptoExistsException = new CriptoExistsException(mensagem);
-
-        // Verificação se a mensagem passada ao construtor está correta
-        assertEquals(mensagem, criptoExistsException.getMessage());
+        assertNotNull(exception);
+        assertEquals(message, exception.getMessage());
     }
 
-    @Test
-    public void testSerialVersionUID() throws NoSuchFieldException, IllegalAccessException {
-        // Obter o campo serialVersionUID usando reflexão
-        Field field = CriptoExistsException.class.getDeclaredField("serialVersionUID");
-        field.setAccessible(true);
+    @Test //verifica se serialVersionUID está configurado corretamente
+    public void testSerialVersionUID() {
+        long expectedSerialVersionUID = 1L;
 
-        // Verifica se o serialVersionUID é o esperado
-        assertEquals(1L, field.get(null));
+        assertEquals(expectedSerialVersionUID, CriptoExistsException.getSerialVersionUID());
+    }
+
+    @Test //verifica campo nulo
+    public void testNullMessage() {
+        CriptoExistsException exception = new CriptoExistsException(null);
+    
+        assertNull(exception.getMessage());
     }
 }
+

@@ -11,4 +11,8 @@ public class ServiceExc extends Exception {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 }
