@@ -8,6 +8,6 @@ class GerenciamentoAlunosApplicationTests {
 
     @Test
     void contextLoads() {
+        // Este teste simplesmente verifica se o contexto da aplicação pode ser carregado corretamente.
     }
-
 }
