@@ -2,13 +2,12 @@ package br.com.gerenciamento.controller;
 
 import br.com.gerenciamento.repository.UsuarioRepository;
 import br.com.gerenciamento.exception.ServiceExc;
-import br.com.gerenciamento.method.Printar;
+import br.com.gerenciamento.service.PrintService;
 import br.com.gerenciamento.model.Aluno;
 import br.com.gerenciamento.model.Usuario;
-import br.com.gerenciamento.service.ServiceUsuario;
+import br.com.gerenciamento.service.UsuarioService;
 import br.com.gerenciamento.util.Util;
 
-import org.jboss.jandex.TypeTarget.Usage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,10 +26,10 @@ public class UsuarioController {
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private ServiceUsuario serviceUsuario;
+    private UsuarioService serviceUsuario;
 
 
-    private Printar printar = new Printar();
+    private PrintService printar = new PrintService();
 
 
     @GetMapping("/login")

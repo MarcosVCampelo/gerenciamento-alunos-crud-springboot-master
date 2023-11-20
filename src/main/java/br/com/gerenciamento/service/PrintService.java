@@ -1,9 +1,12 @@
-package br.com.gerenciamento.method;
+package br.com.gerenciamento.service;
 
 
+import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
-public class Printar{
+
+@Service
+public class PrintService {
 
 
         public ModelAndView modelAndView(String viewName, Object object, String objectName) {
