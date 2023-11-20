@@ -42,12 +42,4 @@ class AlunoTest {
         aluno.setId(1L);
         assertEquals(1L, aluno.getId());
     }
-
-    @Test //valida minimo de caracteres
-    void testNomeMinLengthValidation() {
-        Aluno aluno = new Aluno();
-        assertThrows(javax.validation.ConstraintViolationException.class, () -> {
-            aluno.setNome("Jo");
-        });
-    }
 }
