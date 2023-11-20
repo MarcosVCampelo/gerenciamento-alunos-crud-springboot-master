@@ -6,7 +6,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Service
-public class Printar{
+public class PrintService {
 
 
         public ModelAndView modelAndView(String viewName, Object object, String objectName) {

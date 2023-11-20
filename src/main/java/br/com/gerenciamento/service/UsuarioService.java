@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.security.NoSuchAlgorithmException;
 
 @Service
-public class ServiceUsuario {
+public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;

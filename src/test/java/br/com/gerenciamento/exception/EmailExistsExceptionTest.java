@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class EmailExistsExceptionTest {
 
-    @Test //verifica se o construtor está configurando corretamente a mensagem
+    @Test
     public void testConstructor() {
         String message = "Email já existe";
         EmailExistsException exception = new EmailExistsException(message);
@@ -14,14 +14,14 @@ public class EmailExistsExceptionTest {
         assertEquals(message, exception.getMessage());
     }
 
-    @Test //verifica se o serialVersionUID está configurado corretamente
+    @Test
     public void testSerialVersionUID() {
         long expectedSerialVersionUID = 1L;
 
         assertEquals(expectedSerialVersionUID, EmailExistsException.getSerialVersionUID());
     }
 
-    @Test //verifica campo nulo
+    @Test
     public void testNullMessage() {
         EmailExistsException exception = new EmailExistsException(null);
     

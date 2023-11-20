@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CriptoExistsExceptionTest {
 
-    @Test //verifica se o construtor está configurando corretamente a mensagem
+    @Test
     public void testConstructor() {
         String message = "ERRO";
         CriptoExistsException exception = new CriptoExistsException(message);
@@ -14,14 +14,14 @@ public class CriptoExistsExceptionTest {
         assertEquals(message, exception.getMessage());
     }
 
-    @Test //verifica se serialVersionUID está configurado corretamente
+    @Test
     public void testSerialVersionUID() {
         long expectedSerialVersionUID = 1L;
 
         assertEquals(expectedSerialVersionUID, CriptoExistsException.getSerialVersionUID());
     }
 
-    @Test //verifica campo nulo
+    @Test
     public void testNullMessage() {
         CriptoExistsException exception = new CriptoExistsException(null);
     

@@ -9,17 +9,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Service
-public class ServiceAluno {
+public class AlunoService {
 
     private final AlunoRepository alunoRepository;
     @Autowired
-    private final Printar printar;
+    private final PrintService printar;
 
 
-    public ServiceAluno(AlunoRepository alunoRepository, Printar printar) {
+    public AlunoService(AlunoRepository alunoRepository, PrintService printar) {
         this.alunoRepository = alunoRepository;
         this.printar = printar;
     }
+
 
     public ModelAndView inserirAluno(Aluno aluno, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {

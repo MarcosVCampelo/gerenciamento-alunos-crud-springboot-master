@@ -1,9 +1,10 @@
 package br.com.gerenciamento.controller;
 
 import br.com.gerenciamento.method.Lista;
-import br.com.gerenciamento.method.Printar;
+import br.com.gerenciamento.service.PrintService;
 import br.com.gerenciamento.repository.AlunoRepository;
 import br.com.gerenciamento.model.Aluno;
+import br.com.gerenciamento.service.AlunoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,15 +13,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class AlunoController {
 
     @Autowired
     private AlunoRepository alunoRepository;
-    private Printar printar = new Printar();
+    @Autowired
+    private AlunoService serviceAluno;
+
+    private PrintService printar = new PrintService();
     private Lista lista = new Lista();
 
 
@@ -29,14 +31,9 @@ public class AlunoController {
         return printar.modelAndView("Aluno/formAluno", new Aluno(), "aluno");
     }
 
-    @PostMapping("InsertAlunos")
-    public ModelAndView inserirAluno(@Valid Aluno aluno, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return printar.modelAndView("Aluno/formAluno", aluno, "aluno");
-        } else {
-            alunoRepository.save(aluno);
-            return printar.modelAndView("redirect:/alunos-adicionados", aluno, "aluno");
-        }
+    @PostMapping("/InsertAlunos")
+    public ModelAndView inserirAluno(Aluno aluno, BindingResult bindingResult) {
+        return serviceAluno.inserirAluno(aluno, bindingResult);
     }
 
     @GetMapping("alunos-adicionados")
