@@ -8,16 +8,14 @@ public class PrintServiceTest {
 
     @Test
     public void testModelAndView() {
-        // Configuração
+
         PrintService printService = new PrintService();
         String viewName = "exampleView";
-        Object object = new Object();  // Pode ser qualquer objeto de exemplo
+        Object object = new Object(); 
         String objectName = "exampleObject";
 
-        // Execução
         ModelAndView modelAndView = printService.modelAndView(viewName, object, objectName);
 
-        // Verificações
         assertNotNull(modelAndView);
         assertEquals(viewName, modelAndView.getViewName());
         assertTrue(modelAndView.getModel().containsKey(objectName));
