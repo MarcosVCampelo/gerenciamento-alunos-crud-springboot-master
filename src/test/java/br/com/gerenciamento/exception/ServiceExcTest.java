@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ServiceExcTest {
 
-    @Test //verifica se o construtor está configurando corretamente a mensagem
+    @Test
     public void testConstructor() {
         String message = "Mensagem de erro";
         ServiceExc exception = new ServiceExc(message);
@@ -14,7 +14,7 @@ public class ServiceExcTest {
         assertEquals(message, exception.getMessage());
     }
 
-    @Test //verifica se serialVersionUID está configurado corretamente
+    @Test
     public void testSerialVersionUID() {
         long expectedSerialVersionUID = 1L;
 
