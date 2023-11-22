@@ -1,6 +1,4 @@
 package br.com.gerenciamento.controller;
-
-import br.com.gerenciamento.method.Lista;
 import br.com.gerenciamento.service.PrintService;
 import br.com.gerenciamento.repository.AlunoRepository;
 import br.com.gerenciamento.model.Aluno;
