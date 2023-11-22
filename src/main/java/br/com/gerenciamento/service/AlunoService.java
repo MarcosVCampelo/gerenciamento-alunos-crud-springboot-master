@@ -2,6 +2,9 @@ package br.com.gerenciamento.service;
 
 import br.com.gerenciamento.model.Aluno;
 import br.com.gerenciamento.repository.AlunoRepository;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
@@ -28,5 +31,14 @@ public class AlunoService {
         }
         alunoRepository.save(aluno);
         return printar.modelAndView("redirect:/alunos-adicionados", aluno, "aluno");
+    }
+    
+
+      public List<Aluno> obterListaAlunos(String nome) {
+        if (nome == null || nome.trim().isEmpty()) {
+            return alunoRepository.findAll();
+        } else {
+            return alunoRepository.findByNomeContainingIgnoreCase(nome);
+        }
     }
 }

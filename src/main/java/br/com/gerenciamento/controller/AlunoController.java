@@ -23,7 +23,7 @@ public class AlunoController {
     private AlunoService serviceAluno;
 
     private PrintService printar = new PrintService();
-    private Lista lista = new Lista();
+   
 
 
     @GetMapping("/inserirAlunos")
@@ -79,7 +79,7 @@ public class AlunoController {
     
     @PostMapping("/pesquisar-aluno")
     public ModelAndView pesquisarAluno(@RequestParam(required = false) String nome) {
-        lista.obterListaAlunos(nome);
-        return printar.modelAndView("Aluno/pesquisa-resultado", lista, "ListaDeAlunos");
+        serviceAluno.obterListaAlunos(nome);
+        return printar.modelAndView("Aluno/pesquisa-resultado", serviceAluno, "ListaDeAlunos");
     }
 }
