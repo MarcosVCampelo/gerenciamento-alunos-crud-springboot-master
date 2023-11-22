@@ -45,15 +45,15 @@ public class UsuarioServiceTest {
 
     @Test
     public void testLoginUser() throws ServiceExc {
-        String username = "testuser";
-        String password = "testpassword";
+        String user = "testuser";
+        String senha = "testpassword";
         Usuario expectedUser = new Usuario();
-        when(usuarioRepository.buscarLogin(username, password)).thenReturn(expectedUser);
+        when(usuarioRepository.buscarLogin(user, senha)).thenReturn(expectedUser);
 
-        Usuario result = usuarioService.loginUser(username, password);
+        Usuario result = usuarioService.loginUser(user, senha);
 
         assertEquals(expectedUser, result);
 
-        verify(usuarioRepository, times(1)).buscarLogin(eq(username), eq(password));
+        verify(usuarioRepository, times(1)).buscarLogin(user, senha);
     }
 }
