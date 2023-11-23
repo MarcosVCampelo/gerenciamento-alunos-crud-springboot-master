@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class UsuarioTest {
 
-    @Test //valida usuario válido
+    @Test 
     public void testValidUsuario() {
         Usuario usuario = new Usuario();
         usuario.setEmail("usuario@test.com");
@@ -25,7 +25,7 @@ public class UsuarioTest {
         assertTrue(violations.isEmpty(), "Validação de usuário com sucesso");
     }
 
-    @Test //valida email inválido
+    @Test 
     public void testInvalidEmail() {
         Usuario usuario = new Usuario();
         usuario.setEmail("emailinvalido");
@@ -39,7 +39,7 @@ public class UsuarioTest {
         assertFalse(violations.isEmpty(), "Email inválido");
     }
 
-    @Test //valida tamanho do comprimento de usuário
+    @Test 
     public void testInvalidUserLength() {
         Usuario usuario = new Usuario();
         usuario.setEmail("usuario@test.com");
@@ -53,12 +53,12 @@ public class UsuarioTest {
         assertFalse(violations.isEmpty(), "Comprimento do usuário inválido");
     }
 
-    @Test //valida senha inválida
+    @Test 
     public void testInvalidSenhaNull() {
         Usuario usuario = new Usuario();
         usuario.setEmail("usuario@test.com");
         usuario.setUser("username");
-        // Senha é nula
+
 
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         Validator validator = factory.getValidator();

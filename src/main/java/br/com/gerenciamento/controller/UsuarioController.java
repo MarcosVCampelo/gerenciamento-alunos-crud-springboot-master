@@ -77,6 +77,7 @@ public class UsuarioController {
         modelAndView.setViewName("login/login");
         return modelAndView;
     }
+    
 
     @PostMapping("/logout")
     public ModelAndView logout(HttpSession session) {
