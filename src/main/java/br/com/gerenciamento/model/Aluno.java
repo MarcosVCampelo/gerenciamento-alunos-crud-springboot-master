@@ -41,7 +41,7 @@ public class Aluno {
     @Enumerated(EnumType.STRING)
     @NotNull
     private Turno turno;
-
+    
     public Long getId() {
         return id;
     }
