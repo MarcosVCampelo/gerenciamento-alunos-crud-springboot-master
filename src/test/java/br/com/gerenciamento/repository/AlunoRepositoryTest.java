@@ -85,8 +85,5 @@ public class AlunoRepositoryTest {
 
         // Verifica se o resultado é o esperado
         assertEquals(alunosComJose, result);
-    }
-
-
-   
+    }  
 }
