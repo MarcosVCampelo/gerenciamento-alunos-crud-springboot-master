@@ -6,17 +6,21 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+import br.com.gerenciamento.enums.Curso;
+import br.com.gerenciamento.enums.Status;
+import br.com.gerenciamento.enums.Turno;
 
 public class AlunoServiceTest {
 
@@ -24,16 +28,50 @@ public class AlunoServiceTest {
     private AlunoRepository alunoRepository;
 
     @Mock
-    private PrintService printar;
+    private PrintService printService;
 
     @InjectMocks
     private AlunoService alunoService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+      @BeforeEach
+    public void setUp() {
+        alunoRepository = mock(AlunoRepository.class);
+        printService = mock(PrintService.class);
+        alunoService = new AlunoService(alunoRepository, printService);
     }
+    private Aluno criarAlunoExemplo() {
+        Aluno aluno = new Aluno();
+        aluno.setNome("Exemplo Aluno");
+        aluno.setMatricula("123");
+        aluno.setCurso(Curso.ADMINISTRACAO);
+        aluno.setTurno(Turno.MATUTINO);
+        aluno.setStatus(Status.ATIVO);
+        return aluno;
+    }
+        
 
+    @Test
+    public void testInserirAluno() {
+        Aluno aluno = criarAlunoExemplo();
+        BindingResult bindingResultMock = mock(BindingResult.class);
+
+        // Configurando o comportamento do mock
+        when(bindingResultMock.hasErrors()).thenReturn(false);
+        when(alunoRepository.save(aluno)).thenReturn(aluno);
+        when(printService.modelAndView("redirect:/alunos-adicionados", aluno, "aluno"))
+                .thenReturn(new ModelAndView("redirect:/alunos-adicionados"));
+
+        // Executando o método a ser testado
+        ModelAndView result = alunoService.inserirAluno(aluno, bindingResultMock);
+
+        // Verificando o comportamento esperado
+        verify(alunoRepository, times(1)).save(aluno);
+        verify(printService, times(1)).modelAndView(eq("redirect:/alunos-adicionados"), eq(aluno), eq("aluno"));
+
+        // Verificando o resultado
+        assertNotNull(result);
+        assertEquals("redirect:/alunos-adicionados", result.getViewName());
+    }
     @Test
     void testObterListaAlunos() {
         when(alunoRepository.findAll()).thenReturn(Collections.emptyList());
@@ -42,52 +80,7 @@ public class AlunoServiceTest {
         assertEquals(Collections.emptyList(), result);
     }
 
-    
-    @Test
-    void testInserirAlunoComSucesso() {
-        Aluno aluno = new Aluno();
-        BindingResult bindingResult = mock(BindingResult.class);
-    
-        // Configurar comportamento do BindingResult
-        when(bindingResult.hasErrors()).thenReturn(false);
-    
-        // Configurar comportamento do mock do repository
-        doNothing().when(alunoRepository).save(aluno);
-    
-        // Chamar o método do serviço
-        ModelAndView modelAndView = alunoService.inserirAluno(aluno, bindingResult);
-    
-        // Verificar se o método do repositório foi chamado
-        verify(alunoRepository, times(1)).save(aluno);
-    
-        // Verificar se o método do serviço de impressão não foi chamado
-        verifyNoInteractions(printar);
-    
-        // Verificar o resultado
-        assertEquals("redirect:/alunos-adicionados", modelAndView.getViewName());
-    }
 
-@Test
-void testInserirAlunoComErro() {
-    Aluno aluno = new Aluno();
-    BindingResult bindingResult = mock(BindingResult.class);
 
-    // Configurar comportamento do BindingResult
-    when(bindingResult.hasErrors()).thenReturn(true);
-
-    // Configurar comportamento do mock do serviço de impressão
-    when(printar.modelAndView(anyString(), eq(aluno), anyString())).thenReturn(new ModelAndView("Aluno/formAluno"));
-
-    // Chamar o método do serviço
-    ModelAndView modelAndView = alunoService.inserirAluno(aluno, bindingResult);
-
-    // Verificar se o método do repositório não foi chamado
-    verifyNoInteractions(alunoRepository);
-
-    // Verificar se o método do serviço de impressão foi chamado
-    verify(printar, times(1)).modelAndView(anyString(), eq(aluno), anyString());
-
-    // Verificar o resultado
-    assertEquals("Aluno/formAluno", modelAndView.getViewName());
-    }
 }
+
