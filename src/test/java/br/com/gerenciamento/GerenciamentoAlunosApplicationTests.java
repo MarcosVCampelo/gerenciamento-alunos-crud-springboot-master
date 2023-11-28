@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class GerenciamentoAlunosApplicationTests {
 
     @Test
-    void contextLoads() {
+            void contextLoads() {
         // Este teste simplesmente verifica se o contexto da aplicação pode ser carregado corretamente.
     }
 }

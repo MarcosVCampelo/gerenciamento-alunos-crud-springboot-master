@@ -29,31 +29,17 @@ class UsuarioRepositoryTest {
 
     @Test
     void testFindByEmail() {
-        // Cria um usuário fictício com o e-mail "usuario@teste"
         Usuario usuario = createUsuario("usuario@teste","Usuario", "senha123");
-
-        // Configura o comportamento esperado do mock quando o método findByEmail() é chamado
         when(usuarioRepository.findByEmail("usuario@teste")).thenReturn(usuario);
-
-        // Chama o método real que você deseja testar
         Usuario result = usuarioRepository.findByEmail("usuario@teste");
-
-        // Verifica se o resultado é o esperado
         assertEquals(usuario, result);
     }
 
     @Test
     void testBuscarLogin() {
-        // Cria um usuário fictício com nome de usuário "user123" e senha "senha456"
         Usuario usuario = createUsuario("usuario@teste","Usuario", "senha123");
-
-        // Configura o comportamento esperado do mock quando o método buscarLogin() é chamado
         when(usuarioRepository.buscarLogin("Usuario", "senha123")).thenReturn(usuario);
-
-        // Chama o método real que você deseja testar
         Usuario result = usuarioRepository.buscarLogin("Usuario", "senha123");
-
-        // Verifica se o resultado é o esperado
         assertEquals(usuario, result);
     }
 

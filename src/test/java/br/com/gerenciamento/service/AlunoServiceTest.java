@@ -54,21 +54,13 @@ public class AlunoServiceTest {
     public void testInserirAluno() {
         Aluno aluno = criarAlunoExemplo();
         BindingResult bindingResultMock = mock(BindingResult.class);
-
-        // Configurando o comportamento do mock
         when(bindingResultMock.hasErrors()).thenReturn(false);
         when(alunoRepository.save(aluno)).thenReturn(aluno);
         when(printService.modelAndView("redirect:/alunos-adicionados", aluno, "aluno"))
                 .thenReturn(new ModelAndView("redirect:/alunos-adicionados"));
-
-        // Executando o método a ser testado
         ModelAndView result = alunoService.inserirAluno(aluno, bindingResultMock);
-
-        // Verificando o comportamento esperado
         verify(alunoRepository, times(1)).save(aluno);
         verify(printService, times(1)).modelAndView(eq("redirect:/alunos-adicionados"), eq(aluno), eq("aluno"));
-
-        // Verificando o resultado
         assertNotNull(result);
         assertEquals("redirect:/alunos-adicionados", result.getViewName());
     }

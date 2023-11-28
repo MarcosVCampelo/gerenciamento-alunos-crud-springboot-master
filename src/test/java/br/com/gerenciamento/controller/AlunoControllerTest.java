@@ -65,34 +65,25 @@ class AlunoControllerTest {
 
     @Test
     void testEditar() throws Exception {
-        // Create a sample Aluno instance for testing
         Long alunoId = 1L;
         Aluno sampleAluno = new Aluno();
         sampleAluno.setId(alunoId);
-        // Mock the behavior of the repository
         when(alunoRepository.getById(alunoId)).thenReturn(sampleAluno);
-
         mockMvc = MockMvcBuilders.standaloneSetup(alunoController).build();
         mockMvc.perform(get("/editar/{id}", alunoId))
                 .andExpect(status().isOk())
                 .andExpect(view().name("Aluno/editar"))
                 .andExpect(model().attribute("aluno", sampleAluno));
-
-        // Verify that repository method was called with the correct ID
         verify(alunoRepository, times(1)).getById(alunoId);
     }
 
     @Test
     void testRemoverAluno() throws Exception {
-        // Create a sample Aluno instance for testing
         Long alunoId = 1L;
-
         mockMvc = MockMvcBuilders.standaloneSetup(alunoController).build();
         mockMvc.perform(get("/remover/{id}", alunoId))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/alunos-adicionados"));
-
-        // Verify that repository method was called with the correct ID
         verify(alunoRepository, times(1)).deleteById(alunoId);
     }
 
