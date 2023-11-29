@@ -10,22 +10,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
-import antlr.collections.List;
 import br.com.gerenciamento.model.Aluno;
 import br.com.gerenciamento.repository.AlunoRepository;
 import br.com.gerenciamento.service.AlunoService;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.Collections;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -64,6 +59,13 @@ class AlunoControllerTest {
     }
 
     @Test
+    void testListagemAlunos() throws Exception{
+        mockMvc = MockMvcBuilders.standaloneSetup(alunoController).build();
+        mockMvc.perform(get("/alunos-adicionados"))
+        .andExpect(view().name("Aluno/listAlunos"));
+    }
+
+    @Test
     void testEditar() throws Exception {
         Long alunoId = 1L;
         Aluno sampleAluno = new Aluno();
@@ -93,5 +95,21 @@ class AlunoControllerTest {
         mockMvc.perform(get("/filtro-alunos"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("Aluno/filtroAlunos"));
+    }
+
+    @Test 
+    void testListaAlunosInativos() throws Exception{
+        mockMvc = MockMvcBuilders.standaloneSetup(alunoController).build();
+        mockMvc.perform(get("/alunos-inativos"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("Aluno/alunos-inativos"));
+    }
+
+    @Test 
+    void testListaAlunosAtivos() throws Exception{
+        mockMvc = MockMvcBuilders.standaloneSetup(alunoController).build();
+        mockMvc.perform(get("/alunos-ativos"))
+        .andExpect(status().isOk())
+        .andExpect(view().name("Aluno/alunos-ativos"));
     }
 }

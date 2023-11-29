@@ -15,4 +15,7 @@ public enum Curso {
         this.curso = curso;
     }
 
+    public Object getCurso() {
+        return curso;
+    }
 }

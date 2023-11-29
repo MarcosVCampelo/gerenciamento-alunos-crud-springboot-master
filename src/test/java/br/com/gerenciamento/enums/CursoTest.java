@@ -28,4 +28,14 @@ public class CursoTest {
         assertEquals("BIOMEDICINA", Curso.BIOMEDICINA.toString());
         assertEquals("DIREITO", Curso.DIREITO.toString());
     }
+
+    @Test
+    public void testGetCurso() {
+        assertEquals("Administração", Curso.ADMINISTRACAO.getCurso());
+        assertEquals("Informática", Curso.INFORMATICA.getCurso());
+        assertEquals("Contabilidade", Curso.CONTABILIDADE.getCurso());
+        assertEquals("Enfermagem", Curso.ENFERMAGEM.getCurso());
+        assertEquals("Biomedicina", Curso.BIOMEDICINA.getCurso());
+        assertEquals("Direito", Curso.DIREITO.getCurso());
+    }
 }

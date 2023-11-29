@@ -2,6 +2,7 @@ package br.com.gerenciamento.controller;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -84,7 +85,7 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    public void index() throws Exception{
+    public void testIndex() throws Exception{
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(usuarioController).build();
         mockMvc.perform(MockMvcRequestBuilders.get("/index"))
                 .andExpect(view().name("home/index"));
